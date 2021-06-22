@@ -4,16 +4,14 @@ import React, { useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { ExpenseContext } from "../ExpenseContext";
-import { v4 as uuidv4 } from 'uuid';
-
+import { v4 as uuidv4 } from "uuid";
 
 const ExpenseAded = () => {
-
-  const { addItems, expenses,deleteItems } = useContext(ExpenseContext);
+  const { dispatch, expenses } = useContext(ExpenseContext);
 
   const formik = useFormik({
     initialValues: {
-      id:"",
+      id: "",
       title: "",
       amount: "",
     },
@@ -24,26 +22,28 @@ const ExpenseAded = () => {
       amount: Yup.string().required("Amount is required"),
     }),
     onSubmit: (values) => {
-      addItems({...values,id:uuidv4()});
-      },
-   
- 
-    });
+      dispatch({ type: "ADD_ITEMS", expense: { ...values } });
+    },
+  });
 
   return (
     <>
       {expenses.map((expense) => (
-        <div key={expense.id} >
-        <ul >
-          <li>{expense.title}</li>
-          <li>${expense.amount}</li>
-        </ul>
-        <button type="button" onClick={()=>(deleteItems(expense))} >Delete</button>
+        <div key={expense.id}>
+          <ul>
+            <li>{expense.title}</li>
+            <li>${expense.amount}</li>
+          </ul>
+          <button
+            type="button"
+            onClick={() => dispatch({ type: "DELETE_ITEMS", id: expense.id })}
+          >
+            Delete
+          </button>
         </div>
       ))}
 
       <form onSubmit={formik.handleSubmit}>
-        
         <input
           name="title"
           onChange={formik.handleChange}
@@ -59,7 +59,6 @@ const ExpenseAded = () => {
           value={formik.values.amount}
         />
         <button type="submit">Submit</button>
-       
       </form>
     </>
   );

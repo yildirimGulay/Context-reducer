@@ -1,13 +1,14 @@
 /** @format */
 
-import React, { useState, createContext } from "react";
+import React, { useState, createContext,useReducer } from "react";
 import { v4 as uuidv4 } from 'uuid';
+import { expenseReducer } from "./reducers/expenseReducer";
 
 export const ExpenseContext = createContext();
 
 const ExpenseProvider = (props) => {
-  const [expenses, setExpenses] = useState([
-    {
+  const [expenses, dispatch] = useReducer(expenseReducer,[
+     {
       id: uuidv4(),
       title: "Toilet Paper",
       amount: 94.12,
@@ -26,22 +27,22 @@ const ExpenseProvider = (props) => {
       id: uuidv4(),
       title: "New Desk (Wooden)",
       amount: 450,
-    },
+    }, 
   ]);
 
-  const addItems = (values) => {
-    setExpenses([...expenses,values/* {id:uuidv4(),title:values.title,amount:values.amount} */]);
+ /*  const addItems = (values) => {
+    setExpenses([...expenses,values  ]);
   
   };
 
   const deleteItems = (item) => {
     setExpenses ( expenses.filter((i) => i.id !== item.id));
    
-  };
+  }; */
 
   return (
     <ExpenseContext.Provider
-      value={{ expenses, addItems, setExpenses, deleteItems }}
+      value={{ expenses, dispatch /* addItems, setExpenses, deleteItems */ }}
     >
       {props.children}
     </ExpenseContext.Provider>
