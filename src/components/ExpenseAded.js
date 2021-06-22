@@ -13,7 +13,7 @@ const ExpenseAded = () => {
 
   const formik = useFormik({
     initialValues: {
-      id:uuidv4(),
+      id:"",
       title: "",
       amount: "",
     },
@@ -24,7 +24,7 @@ const ExpenseAded = () => {
       amount: Yup.string().required("Amount is required"),
     }),
     onSubmit: (values) => {
-      addItems(values);
+      addItems({...values,id:uuidv4()});
       },
    
  
@@ -33,13 +33,13 @@ const ExpenseAded = () => {
   return (
     <>
       {expenses.map((expense) => (
-        <>
-        <ul key={expense.id}>
+        <div key={expense.id} >
+        <ul >
           <li>{expense.title}</li>
           <li>${expense.amount}</li>
         </ul>
         <button type="button" onClick={()=>(deleteItems(expense))} >Delete</button>
-        </>
+        </div>
       ))}
 
       <form onSubmit={formik.handleSubmit}>

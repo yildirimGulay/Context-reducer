@@ -30,7 +30,7 @@ const ExpenseProvider = (props) => {
   ]);
 
   const addItems = (values) => {
-    setExpenses([...expenses,values]);
+    setExpenses([...expenses,values/* {id:uuidv4(),title:values.title,amount:values.amount} */]);
   
   };
 
