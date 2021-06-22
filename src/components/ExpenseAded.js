@@ -4,65 +4,46 @@ import React, { useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { ExpenseContext } from "../ExpenseContext";
-import { useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
+
 
 const ExpenseAded = () => {
-  const { addItems, expenses,setNewExpenses} = useContext(ExpenseContext);
 
-
-
-
-  
-
-
+  const { addItems, expenses,deleteItems } = useContext(ExpenseContext);
 
   const formik = useFormik({
     initialValues: {
-      id:"",
-      title:"",
-      amount:""
-     
+      id:uuidv4(),
+      title: "",
+      amount: "",
     },
 
-   
-  
     validationSchema: Yup.object({
       title: Yup.string().required("Title is required"),
 
       amount: Yup.string().required("Amount is required"),
     }),
-    onSubmit: (values,e) => {
-      setNewExpenses({id:formik.values.id, title:formik.values.title,amount:formik.values.amount})
-     addItems(); 
+    onSubmit: (values) => {
+      addItems(values);
+      },
    
-     
-     console.log('addItems:',addItems)
-     
-    },
-
-   
-  })
  
-  
-console.log('initialValues:',formik.initialValues)
+    });
+
   return (
     <>
-   
-      {expenses.map((expens) => (
-        <ul key={expens.id}>
-          <li>{expens.title}</li>
-          <li>${expens.amount}</li>
+      {expenses.map((expense) => (
+        <>
+        <ul key={expense.id}>
+          <li>{expense.title}</li>
+          <li>${expense.amount}</li>
         </ul>
+        <button type="button" onClick={()=>(deleteItems(expense))} >Delete</button>
+        </>
       ))}
-    
+
       <form onSubmit={formik.handleSubmit}>
-      <input
-          name="id"
-          onChange={formik.handleChange}
-          type="text"
-          placeholder="Items id"
-          value={formik.values.id}
-        />
+        
         <input
           name="title"
           onChange={formik.handleChange}
@@ -77,7 +58,8 @@ console.log('initialValues:',formik.initialValues)
           placeholder="Amount"
           value={formik.values.amount}
         />
-        <button type="submit" >Submit</button>
+        <button type="submit">Submit</button>
+       
       </form>
     </>
   );

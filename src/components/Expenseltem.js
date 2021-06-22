@@ -1,5 +1,5 @@
 
-import React,{useState,useContext} from "react";
+import React,{useContext} from "react";
 import {ExpenseContext} from '../ExpenseContext'
 
 const Expenseltem = () => {
