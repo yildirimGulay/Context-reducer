@@ -4,15 +4,8 @@ import React, { useContext } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { ExpenseContext } from "../ExpenseContext";
-import { v4 as uuidv4 } from "uuid";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import { Input, ListItemText, Button } from "@material-ui/core";
-import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
-import ListItemSecondaryAction from '@material-ui/core/ListItemSecondaryAction';
-import IconButton from '@material-ui/core/IconButton';
-import DeleteIcon from '@material-ui/icons/Delete';
+import { Input,Button } from "@material-ui/core";
+
 
 const ExpenseAded = () => {
   const { dispatch, expenses } = useContext(ExpenseContext);
@@ -36,27 +29,7 @@ const ExpenseAded = () => {
 
   return (
     <div>
-      {expenses.map((expense) => (
-        <div key={expense.id}>
-          <List>
-            <ListItem>
-              <ListItemText primary={expense.title} />
-              <ListItemIcon><AttachMoneyIcon/></ListItemIcon>
-              <ListItemText primary={expense.amount} />
-            
-              <ListItemSecondaryAction>
-          <IconButton
-            type="button"
-            onClick={() => dispatch({ type: "DELETE_ITEMS", id: expense.id })}
-          >
-           <DeleteIcon />
-          </IconButton>
-          </ListItemSecondaryAction>
-          </ListItem>
-          </List>
-        </div>
-      ))}
-
+      
       <form onSubmit={formik.handleSubmit}>
         <Input
           name="title"
@@ -72,7 +45,9 @@ const ExpenseAded = () => {
           placeholder="Amount"
           value={formik.values.amount}
         />
-        <Button variant="contained" color="primary" type="submit">Submit</Button>
+        <Button variant="contained" color="primary" type="submit">
+          Submit
+        </Button>
       </form>
     </div>
   );
